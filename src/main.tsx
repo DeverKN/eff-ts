@@ -2,58 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { sextupleTask } from "../eff/old/CallCC";
-import { handle, handleOnce } from "../eff/rewrite";
-import {
-  ForkableGeneratorFunction,
-  SymbolForNextCache,
-} from "../eff/generator/ForkableGenerator";
-import { doForEach, doFork, doInput, doLog, doRepeat } from "./Effects";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// console.log({ReactDOM, Internals:React["__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED"]})
-
 // console.log(sextupleTask(2))
-
-const exampleHandler = {
-  log: (k: any, logString: string) => {
-    console.log(logString);
-    k();
-  },
-  input: (k: any, promptString: string) => {
-    const input = prompt(promptString);
-    k(input);
-  },
-  foreach: (k: any, arr: any[]) => {
-    arr.forEach((item, i) => {
-      console.log({ i });
-      k(item);
-    });
-  },
-  repeat: (k: any, numRepeats: number) => {
-    for (let iterationNum = 0; iterationNum < numRepeats; iterationNum++) {
-      k(iterationNum);
-    }
-  },
-};
-const exampleTask = ForkableGeneratorFunction(function* () {
-  const name = yield* doInput("What is your name?");
-  // console.log({name})
-  yield* doLog(`Hello ${name}`);
-  const maxIterations = 5;
-  const iterationNum = yield* doForEach([1, 2, 3, 4, 5]);
-  yield* doLog(
-    `Hello ${name} (this will print ${maxIterations - iterationNum} more times)`
-  );
-  return;
-});
-
-handle(exampleTask(), exampleHandler);
 
 // const singleExampleTask = ForkableGeneratorFunction(function* () {
 //   const name = yield* doInput("What is your name?")

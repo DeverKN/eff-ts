@@ -27,7 +27,10 @@ export class ForkableGeneratorInstance<TArgs extends unknown[], T, TReturn, TNex
   }
 
   fork() {
-    return () => new ForkableGeneratorInstance(this.base, this.args, this.cache);
+    const savedCache = [...this.cache]
+    return () => {
+      return new ForkableGeneratorInstance(this.base, this.args, savedCache);
+    }
   }
 
   [Symbol.iterator](): Iterator<T, TReturn, TNext> {

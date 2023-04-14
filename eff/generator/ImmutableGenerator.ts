@@ -44,7 +44,7 @@ export class ImmutableGeneratorInstance<TArgs extends unknown[], T, TReturn, TNe
   #shouldClone = false;
   #fork: () => ForkableGeneratorInstance<TArgs, T, TReturn, TNext>;
 
-  [SymbolForImmutableGeneratorBrand] = true
+  [SymbolForImmutableGeneratorBrand] = true;
 
   constructor(base: ForkableGeneratorInstance<TArgs, T, TReturn, TNext>) {
     this.#base = base;
@@ -52,15 +52,13 @@ export class ImmutableGeneratorInstance<TArgs extends unknown[], T, TReturn, TNe
   }
 
   next(nextVal: TNext): ImmutableGeneratorResult<T, TReturn, TNext> {
-    const res = this.#base.next(nextVal);
+    const base = this.#shouldClone ? this.#fork() : this.#base;
+    const res = base.next(nextVal);
+    this.#shouldClone = true;
     if (res.done) {
       return { ...res };
     } else {
-      const iterator = this.#shouldClone
-        ? new ImmutableGeneratorInstance(this.#fork())
-        : new ImmutableGeneratorInstance(this.#base);
-      this.#shouldClone = true;
-      return { done: false, value: res.value, iterator };
+      return { done: false, value: res.value, iterator: new ImmutableGeneratorInstance(base) };
     }
   }
 

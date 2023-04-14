@@ -1,31 +1,27 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "plugin:@typescript-eslint/strict",
-      "plugin:expect-type/recommended",
-      "prettier"
-    ],
-    "overrides": [
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "project": "/Users/deverkemmenash/Desktop/2021/Portfolio/eff-ts/tsconfig.json"
-    },
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "eslint-plugin-expect-type",
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "@typescript-eslint/consistent-type-definitions": ["warn","type"]
-      // "@typescript-eslint/no-explicit-any": ["warn"]
-    }
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict",
+    "plugin:expect-type/recommended",
+    "prettier"
+  ],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "/Users/deverkemmenash/Desktop/2021/Portfolio/eff-ts/tsconfig.json"
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["eslint-plugin-expect-type", "@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"]
+    // "@typescript-eslint/no-explicit-any": ["warn"]
+  }
 }

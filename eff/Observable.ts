@@ -30,8 +30,31 @@ export class Observable<T> {
 }
 
 export const single = <T>(val: T): Observable<T> => {
-  return new Observable(subscriber => {
-    subscriber.next(val)
-    subscriber.complete()
-  })
-}
+  return new Observable((subscriber) => {
+    subscriber.next(val);
+    subscriber.complete();
+  });
+};
+
+const delay = (): [Promise<void>, () => void] => {
+  let resolve: () => void;
+  const delayPromise = new Promise<void>((res) => {
+    resolve = res;
+  });
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return [delayPromise, resolve!];
+};
+
+export const toArray = async <T>(observable: Observable<T>): Promise<T[]> => {
+  const [isDone, finish] = delay();
+  const vals: T[] = [];
+
+  observable.subscribe({
+    next: (val) => vals.push(val),
+    complete: () => finish(),
+  });
+
+  await isDone;
+
+  return vals;
+};
