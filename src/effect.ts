@@ -5,7 +5,11 @@ export type Effect<Name extends string | symbol, TArg extends unknown[], TResume
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type EffectHelper<Name extends string | symbol, Signature extends (...args: any[]) => any> = Effect<Name, Parameters<Signature>, ReturnType<Signature>>
+export type EffectHelper<Name extends string | symbol, Signature extends (...args: any[]) => any> = Effect<
+  Name,
+  Parameters<Signature>,
+  ReturnType<Signature>
+>;
 
 export type UnknownEffect = Effect<string | symbol, unknown[], unknown>;
 

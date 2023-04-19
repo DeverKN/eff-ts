@@ -1,6 +1,6 @@
-import { Effect, ResumeType, UnknownEffect } from "./effect";
+import { ResumeType, UnknownEffect } from "./effect";
 import { GeneratorCreator } from "./generator/ForkableGenerator";
-import { Handler, Handlers } from "./handler";
+import { Handlers } from "./handler";
 import { Observable } from "./Observable";
 import { SymbolForTaskBrand, task, Task } from "./task";
 import { EmptyObject, merge, UnknownObject } from "./utils/merge";
@@ -12,9 +12,9 @@ import { EmptyObject, merge, UnknownObject } from "./utils/merge";
 // };
 
 const isTask = <TEffects extends UnknownEffect, TReturn>(
-  maybeTask: Task<TEffects, TReturn> | any
+  maybeTask: Task<TEffects, TReturn> | unknown
 ): maybeTask is Task<TEffects, TReturn> => {
-  return typeof maybeTask === "object" && Object.hasOwn(maybeTask as object, SymbolForTaskBrand);
+  return typeof maybeTask === "object" && maybeTask !== null && Object.hasOwn(maybeTask, SymbolForTaskBrand);
 };
 
 export const run = <TEffects extends UnknownEffect, TReturn, TWorld extends UnknownObject = EmptyObject>(
@@ -52,11 +52,11 @@ export const runInternal = <TEffects extends UnknownEffect, TReturn, TWorld exte
       const { value, iterator } = res;
       const { name, args } = value;
       const handler = handlers[name as TEffects["name"]];
-      numLiveContinuations++;handlers
+      numLiveContinuations++;
+      handlers;
       handler(world, ...args).subscribe({
-
         next: ([continueVal, newWorld]) => {
-          const computedWorld = merge(world, newWorld ?? {})
+          const computedWorld = merge(world, newWorld ?? {});
           numLiveSubtasks++;
           runInternal(iterator, handlers, computedWorld, continueVal).subscribe({
             next: (nextVal) => {

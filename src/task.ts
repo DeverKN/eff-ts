@@ -1,15 +1,12 @@
-import { ContinuationTuple } from "./continuation";
-import { eff, Effect, ResumeType, UnknownEffect } from "./effect";
+import { ResumeType, UnknownEffect } from "./effect";
 import { GeneratorCreator } from "./generator/ForkableGenerator";
 import { ImmutableGeneratorInstance, wrapGeneratorImmmutable } from "./generator/ImmutableGenerator";
-import { Observable, single } from "./Observable";
-import { run } from "./run";
 
 export const SymbolForTaskBrand = Symbol("taskBrand");
 export type SymbolForTaskBrand = typeof SymbolForTaskBrand;
 // type TaskBrand = { [SymbolForTaskBrand]: true };
 
-export type Task<TEffects extends UnknownEffect, TReturn, TArgs extends unknown[] = any> = ImmutableGeneratorInstance<
+export type Task<TEffects extends UnknownEffect, TReturn, TArgs extends unknown[] = unknown[]> = ImmutableGeneratorInstance<
   TArgs,
   TEffects,
   TReturn,
